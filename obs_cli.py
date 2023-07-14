@@ -114,6 +114,14 @@ def parse_args():
         help="status/start/stop/toggle",
     )
 
+    replaybuffer_parser = subparsers.add_parser("replaybuffer")
+    replaybuffer_parser.add_argument(
+        "action",
+        choices=["save"],
+        default="save",
+        help="save",
+    )
+
     return parser.parse_args()
 
 
@@ -283,6 +291,9 @@ def record_stop(cl):
 
 def record_toggle(cl):
     return cl.toggle_record()
+
+def replaybuffer_save(cl):
+    return cl.save_replay_buffer()
 
 
 def main():
@@ -469,6 +480,11 @@ def main():
                 LOGGER.debug(res)
             elif args.action == "toggle":
                 res = record_toggle(cl)
+                LOGGER.debug(res)
+
+        elif cmd == "replaybuffer":
+            if args.action == "save":
+                res = replaybuffer_save(cl)
                 LOGGER.debug(res)
 
         return 0
